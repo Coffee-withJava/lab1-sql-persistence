@@ -15,14 +15,15 @@ public class CustomerController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CustomerEntity salvar(CustomerEntity customer) {
+    public CustomerEntity save(CustomerEntity customer) {
         return customerService.save(customer);
     }
 
     @GET
     @Path("/{id}")
-    public CustomerEntity getOrderService(@PathParam("id") Long id) {
-        return customerService.findById(id);
+    public CustomerEntity get(@PathParam("id") Long id) {
+        return customerService.findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 
     @DELETE

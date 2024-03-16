@@ -4,10 +4,9 @@ import entity.CustomerEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 
@@ -21,21 +20,18 @@ public class CustomerService {
         return customer;
     }
 
-    public CustomerEntity findById(Long id) {
-        return em.find(CustomerEntity.class, id);
+    public Optional<CustomerEntity> findById(Long id) {
+        return Optional.ofNullable(em.find(CustomerEntity.class, id));
     }
 
     @Transactional
     public CustomerEntity update(CustomerEntity customer) {
         em.merge(customer);
-        return findById(customer.getId());
+        return customer;
     }
 
     @Transactional
     public void delete(Long id) {
-        CustomerEntity customer = findById(id);
-        if (customer != null) {
-            em.remove(customer);
-        }
+        findById(id).ifPresent(em::remove);
     }
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +41,17 @@ public class OrderService {
 
     @Transactional
     public List<OrderItemsEntity> saveOrder(OrderDTO orderDTO) {
-        CustomerEntity customer = customerService.findById(orderDTO.getCustomerId());
+        CustomerEntity customer = customerService.findById(orderDTO.getCustomerId()).orElseThrow();
         List<OrderItemsEntity> orders = adapterOrder.getOrder(orderDTO, customer);
         OrderEntity orderEntity = getOrderItemEntity(customer, orderDTO.getPaymentTransaction());
         for (OrderItemsEntity order : orders) {
             order.setIdOrder(orderEntity);
+            order.setTotal(order.getTotal().multiply(BigDecimal.valueOf(order.getQuantity())));
             em.persist(order);
+            orderEntity.setTotal(
+                    orderEntity.getTotal()
+                            .add(order.getPrice()
+                                    .multiply(BigDecimal.valueOf(order.getQuantity()))));
         }
         return orders;
     }

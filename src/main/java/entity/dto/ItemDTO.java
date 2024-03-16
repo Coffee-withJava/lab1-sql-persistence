@@ -1,9 +1,11 @@
 package entity.dto;
 
+import java.math.BigDecimal;
+
 public class ItemDTO {
     private String productId;
     private Integer quantity;
-    private String price;
+    private BigDecimal price;
 
     private Long orderId;
 
@@ -22,7 +24,7 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(String productId, int quantity, String price) {
+    public ItemDTO(String productId, int quantity, BigDecimal price) {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
@@ -44,11 +46,11 @@ public class ItemDTO {
         this.quantity = quantity;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

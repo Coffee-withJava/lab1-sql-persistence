@@ -2,6 +2,8 @@ package entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_items")
 public class OrderItemsEntity {
@@ -21,9 +23,9 @@ public class OrderItemsEntity {
     @Column
     private int quantity;
 
-    @Column
-    private String price;
+    private BigDecimal price = BigDecimal.ZERO;
 
+    private BigDecimal total = BigDecimal.ZERO;
 
 
     public Long getId() {
@@ -67,14 +69,19 @@ public class OrderItemsEntity {
         this.quantity = quantity;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
-
+    public BigDecimal getTotal() {
+        return total;
+    }
 }

@@ -1,6 +1,8 @@
 package entity;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,6 +21,8 @@ public class OrderEntity {
 
     @Column
     private String paymentTransaction;
+
+    private BigDecimal total = BigDecimal.ZERO;
 
     public Long getId() {
         return id;
@@ -50,5 +54,13 @@ public class OrderEntity {
 
     public void setPaymentTransaction(String paymentTransaction) {
         this.paymentTransaction = paymentTransaction;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
     }
 }
