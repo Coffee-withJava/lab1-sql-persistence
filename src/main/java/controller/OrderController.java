@@ -32,7 +32,7 @@ public class OrderController {
     @Path("/saveOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OrderItemsEntity> saveOrder(OrderDTO order) {
+    public OrderDTO saveOrder(OrderDTO order) {
         return orderService.saveOrder(order);
     }
 

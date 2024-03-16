@@ -6,6 +6,7 @@ import entity.OrderItemsEntity;
 import entity.OrderEntity;
 import entity.dto.ItemDTO;
 import entity.dto.OrderDTO;
+import entity.dto.SavedOrderDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -40,7 +41,7 @@ public class OrderService {
     }
 
     @Transactional
-    public List<OrderItemsEntity> saveOrder(OrderDTO orderDTO) {
+    public SavedOrderDTO saveOrder(OrderDTO orderDTO) {
         CustomerEntity customer = customerService.findById(orderDTO.getCustomerId()).orElseThrow();
         List<OrderItemsEntity> orders = adapterOrder.getOrder(orderDTO, customer);
         OrderEntity orderEntity = getOrderItemEntity(customer, orderDTO.getPaymentTransaction());
@@ -53,27 +54,17 @@ public class OrderService {
                             .add(order.getPrice()
                                     .multiply(BigDecimal.valueOf(order.getQuantity()))));
         }
-        return orders;
+        return SavedOrderDTO.of(orders);
     }
 
-    public List<ItemDTO> getOrderItemsByOrderId(Long orderId) {
+    public SavedOrderDTO getOrderItemsByOrderId(Long orderId) {
         TypedQuery<OrderItemsEntity> query = em.createQuery(
                 "SELECT oi FROM OrderItemsEntity oi WHERE oi.idOrder.id = :orderId", OrderItemsEntity.class);
         query.setParameter("orderId", orderId);
 
         List<OrderItemsEntity> orderItemsEntities = query.getResultList();
-        List<ItemDTO> itemDTOList = new ArrayList<>();
 
-        for (OrderItemsEntity orderItemsEntity : orderItemsEntities) {
-            ItemDTO itemDTO = new ItemDTO();
-            itemDTO.setOrderId(orderId);
-            itemDTO.setQuantity(orderItemsEntity.getQuantity());
-            itemDTO.setPrice(orderItemsEntity.getPrice());
-            itemDTO.setProductId(orderItemsEntity.getProductName());
-            itemDTOList.add(itemDTO);
-        }
-
-        return itemDTOList;
+        return SavedOrderDTO.of(orderItemsEntities);
     }
 
 

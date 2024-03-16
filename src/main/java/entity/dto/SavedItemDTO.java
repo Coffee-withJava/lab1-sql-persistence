@@ -1,32 +1,36 @@
 package entity.dto;
 
-import java.math.BigDecimal;
+import entity.OrderEntity;
+import entity.OrderItemsEntity;
 
-public class ItemDTO {
+import java.math.BigDecimal;
+import java.util.List;
+
+public class SavedItemDTO {
     private String productId;
     private Integer quantity;
     private BigDecimal price;
-    private Long orderId;
+
+    private BigDecimal total;
+
+    public static List<SavedItemDTO> listOf(List<OrderItemsEntity> orders) {
+        return orders.stream().map(item->
+                new SavedItemDTO(item.getProductName(),
+                        item.getQuantity(), item.getPrice(),item.getTotal())).toList();
+    }
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public SavedItemDTO() {
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public ItemDTO() {
-    }
-
-    public ItemDTO(String productId, int quantity, BigDecimal price) {
+    public SavedItemDTO(String productId, int quantity, BigDecimal price, BigDecimal total) {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
+        this.total = total;
     }
 
     public String getProductId() {
@@ -53,9 +57,17 @@ public class ItemDTO {
         this.price = price;
     }
 
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
     @Override
     public String toString() {
-        return "OrderItemDTO{" +
+        return "SavedItemDTO{" +
                 "productId='" + productId + '\'' +
                 ", quantity=" + quantity +
                 ", price='" + price + '\'' +
