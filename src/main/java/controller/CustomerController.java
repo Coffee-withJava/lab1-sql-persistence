@@ -1,6 +1,5 @@
 package controller;
 
-import entity.CustomerEntity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,13 +14,13 @@ public class CustomerController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CustomerEntity salvar(CustomerEntity customer) {
+    public Object salvar(Object customer) {
         return customerService.save(customer);
     }
 
     @GET
     @Path("/{id}")
-    public CustomerEntity getOrderService(@PathParam("id") Long id) {
+    public Object getOrderService(@PathParam("id") Long id) {
         return customerService.findById(id);
     }
 
@@ -33,7 +32,7 @@ public class CustomerController {
     }
 
     @PUT
-    public CustomerEntity atualizar(CustomerEntity customer) {
+    public Object atualizar(Object customer) {
         return customerService.update(customer);
     }
 }

@@ -1,7 +1,5 @@
 package controller;
 
-import entity.OrderItemsEntity;
-import entity.dto.ItemDTO;
 import entity.dto.OrderDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -19,27 +17,27 @@ public class OrderController {
 
     @GET
     @Path("/{id}")
-    public OrderItemsEntity getOrderService(@PathParam("id") Long id) {
+    public Object getOrderService(@PathParam("id") Long id) {
         return orderService.buscarPorId(id);
     }
 
     @PUT
-    public OrderItemsEntity atualizar(OrderItemsEntity order) {
-        return orderService.atualizar(order);
+    public Object update(Object order) {
+        return orderService.update(order);
     }
 
     @POST
     @Path("/saveOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OrderItemsEntity> saveOrder(OrderDTO order) {
+    public List<Object> saveOrder(OrderDTO order) {
         return orderService.saveOrder(order);
     }
 
 
     @GET
     @Path("/{orderId}/items")
-    public List<ItemDTO> getOrderItemsByOrderId(@PathParam("orderId") Long orderId) {
+    public List<Object> getOrderItemsByOrderId(@PathParam("orderId") Long orderId) {
         return orderService.getOrderItemsByOrderId(orderId);
     }
 

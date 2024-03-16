@@ -1,16 +1,13 @@
 package adapter;
 
-import entity.CustomerEntity;
-import entity.OrderItemsEntity;
-import entity.dto.OrderDTO;
 import jakarta.enterprise.context.ApplicationScoped;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @ApplicationScoped
 public class AdapterOrder {
+    //TODO REMOVER COMENTARIOS
+
+    /*
 
     public List<OrderItemsEntity> getOrder(OrderDTO orderDTO, CustomerEntity customer){
         List<OrderItemsEntity> orderItemsEntity = new ArrayList<>();
@@ -25,5 +22,5 @@ public class AdapterOrder {
         return orderItemsEntity;
     }
 
-
+    */
 }

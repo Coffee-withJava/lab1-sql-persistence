@@ -1,13 +1,9 @@
 package service;
 
-import entity.CustomerEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-
-import java.util.List;
 
 @ApplicationScoped
 
@@ -16,26 +12,35 @@ public class CustomerService {
     private EntityManager em;
 
     @Transactional
-    public CustomerEntity save(CustomerEntity customer) {
+    public Object save(Object customer) {
         em.persist(customer);
         return customer;
     }
 
-    public CustomerEntity findById(Long id) {
-        return em.find(CustomerEntity.class, id);
+    public Object findById(Long id) {
+        /*
+        * TODO
+        *  DEVE BUSCAR CUSTOMER PELO ID E RETORNAR UM CUSTOMERENTITY
+        * */
+        return null;
     }
 
-    @Transactional
-    public CustomerEntity update(CustomerEntity customer) {
-        em.merge(customer);
-        return findById(customer.getId());
+
+    public Object update(Object customer) {
+        /*
+        * TODO
+        *   DEVE REALIZAR UMA ATUALIZAÇÃO NO CUSTOMER E DEVE RETORNA UM CUSTOMER
+        *   OBS ESSE METODO DEVE SER TRANSACTIONAL
+        * */
+        return null;
     }
 
-    @Transactional
+
     public void delete(Long id) {
-        CustomerEntity customer = findById(id);
-        if (customer != null) {
-            em.remove(customer);
-        }
+        /*
+        * TODO
+        *  DEVE REMOVER O CUSTOMER PELO ID
+        *   OBS ESSE METODO DEVE SER TRANSACTIONAL
+        * */
     }
 }

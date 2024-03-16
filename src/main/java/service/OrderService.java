@@ -1,20 +1,12 @@
 package service;
 
 import adapter.AdapterOrder;
-import entity.CustomerEntity;
-import entity.OrderItemsEntity;
-import entity.OrderEntity;
-import entity.dto.ItemDTO;
 import entity.dto.OrderDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -28,56 +20,66 @@ public class OrderService {
     @Inject
     CustomerService customerService;
 
-    public OrderItemsEntity buscarPorId(Long id) {
-        return em.find(OrderItemsEntity.class, id);
-    }
-
-    @Transactional
-    public OrderItemsEntity atualizar(OrderItemsEntity order) {
-        em.merge(order);
-        return buscarPorId(order.getId());
-    }
-
-    @Transactional
-    public List<OrderItemsEntity> saveOrder(OrderDTO orderDTO) {
-        CustomerEntity customer = customerService.findById(orderDTO.getCustomerId());
-        List<OrderItemsEntity> orders = adapterOrder.getOrder(orderDTO, customer);
-        OrderEntity orderEntity = getOrderItemEntity(customer, orderDTO.getPaymentTransaction());
-        for (OrderItemsEntity order : orders) {
-            order.setIdOrder(orderEntity);
-            em.persist(order);
-        }
-        return orders;
-    }
-
-    public List<ItemDTO> getOrderItemsByOrderId(Long orderId) {
-        TypedQuery<OrderItemsEntity> query = em.createQuery(
-                "SELECT oi FROM OrderItemsEntity oi WHERE oi.idOrder.id = :orderId", OrderItemsEntity.class);
-        query.setParameter("orderId", orderId);
-
-        List<OrderItemsEntity> orderItemsEntities = query.getResultList();
-        List<ItemDTO> itemDTOList = new ArrayList<>();
-
-        for (OrderItemsEntity orderItemsEntity : orderItemsEntities) {
-            ItemDTO itemDTO = new ItemDTO();
-            itemDTO.setOrderId(orderId);
-            itemDTO.setQuantity(orderItemsEntity.getQuantity());
-            itemDTO.setPrice(orderItemsEntity.getPrice());
-            itemDTO.setProductId(orderItemsEntity.getProductName());
-            itemDTOList.add(itemDTO);
-        }
-
-        return itemDTOList;
+    public Object buscarPorId(Long id) {
+        /*
+         * TODO DO
+         *   DEVE BUSCAR O OrderItemsEntity PELO ID E RETORNAR O MESMO
+         *
+         * */
+        return null;
     }
 
 
-    private OrderEntity getOrderItemEntity(CustomerEntity customer, String payment) {
-        OrderEntity order = new OrderEntity();
-        order.setIdCustomer(customer);
-        order.setPaymentTransaction(payment);
-        order.setOrderDate(LocalDateTime.now());
-        em.persist(order);
-        return order;
+    public Object update(Object order) {
+        /*
+         * TODO DO
+         *  DEVE RECEBER OrderItemsEntity PARA ATUALIZAR O MESMO E DEVE RETORNAR UM OrderItemsEntity
+         *  OBS ESSA E UMA OPERAÇÃO Transactional
+         * */
+        return null;
+    }
+
+
+    public List<Object> saveOrder(OrderDTO orderDTO) {
+
+        /*
+        * TODO
+        *  DEVE IMPLEMENTAR A LOGICA ONDE VAMOS ESTA RECEBENDO UM ORDERDTO E ESTA SALVANDO NO ORDER ITENS
+        *  JA TEMOS UMA CLASS DE ADAPTER PARA VOCE TRABALHAR E TAMBEM DEVE RETORNAR UMA LISTA DE
+        *  ORDERITEMSENTITY
+        *
+        * OBS:  ESTA METODO DEVE SER TRANSACTIONAL
+        *
+        * */
+        return null;
+    }
+
+    public List<Object> getOrderItemsByOrderId(Long orderId) {
+
+        /*
+        * TODO
+        *  DEVE BUSCAR O OrderItems PELO OrderId E RETORNAR UMA LISTA DE ITEMS EXEMPLO DE RETORNO
+        *   [
+                {
+                    "orderId": 0,
+                    "price": "STRING",
+                    "productId": "STRING",
+                    "quantity": 0
+                }
+            ]
+        *
+        *
+        * */
+        return null;
+    }
+
+
+    private Object getOrderItemEntity(Object customer, String payment) {
+        /*
+         * TODO DO
+         *  DEVE PERSIST A ENTIDADE ORDENENTITY E RETORNAR A MESMA
+         * */
+        return null;
     }
 
 
